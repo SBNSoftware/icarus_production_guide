@@ -11,11 +11,6 @@ In this Markdown page an example of the creation, test and launch of a new produ
 - [Clone an existing campaign](#clone-an-existing-campaign)
 - [Add or remove stages and relative dependencies](#add-or-remove-stages-and-relative-dependencies)
 - [Configure Campaign](#configure-campaign)
-    - fcl file
-    - number of jobs
-    - number of event per file
-    - location of the new production
-    - draining(10)
 - [Launch test campaign](#launch-test-campaign)
 - [Launch campaign](#launch-campaign)
 - [Monitor campaign](#monitor-campaign)
@@ -61,7 +56,7 @@ By double clicking on the stage element, you can customize it.
 
 ![image](images/EditStageConfiguration.png)
 
-In the new window, you can check the software version and the **cs_split_type** field (1). A goos choise is **drainingn** with **nfiles = 10**. As the explanatory comment says, "*This type, when filled out as draining(n) for some integer n, will pull at most n files at a time from the dataset and deliver them on each iteration, keeping track of the delivered files with a snapshot. This means it works well for datasets that are growing or changing from under it*". 
+In the new window, you can check the **software_version** and the **cs_split_type** field (1). Concerning **cs_split_type** for Monte Carlo campaign you can leave **None** while in the case of detector data, a good choice is **drainingn** with **nfiles = 10**. As the explanatory comment says, "*This type, when filled out as draining(n) for some integer n, will pull at most n files at a time from the dataset and deliver them on each iteration, keeping track of the delivered files with a snapshot. This means it works well for datasets that are growing or changing from under it*". 
 
 To override the default parameters (2) for production or test campaign, click on the **Edit** button on the right of the corresponding field.
 
@@ -100,7 +95,7 @@ Click on the **Launch Campaign Stage Test Jobs Now** button.
 
 ![image](images/LaunchTestCampaign.png)
 
-Now you have launched your campaing in *test* mode. Once you have verified everything is set up correctly you can launch the campaign. Otherwise you have to fix the campaign and relaunch it in *test* mode.
+Now you have launched your campaing in *test* mode. Once you have verified everything is set up correctly you can launch the campaign. Otherwise you have to fix the campaign and relaunch it in *test* mode. A short list of the most common cause of failure/helding is reported [here](#most-common-issues)
 
 ## Launch campaign
 
@@ -131,3 +126,51 @@ By clicking on the submission id, you can check the status of each job, its stdo
 ![image](images/JobStatus.png)
 
 In case of failure or helding of the job, you can get an hint of the reason from its corresponding stdout and stderr.
+
+## Most common issues
+
+### fcl not exists
+
+If the job fails and in the stderr you find something like:
+
+```
+error: globus_ftp_client: the server responded with an error
+550 File not found
+
+program: globus-url-copy -rst-retries 1 -gridftp2 -nodcau -restart -stall-timeout 14400  gsiftp://fndca4b.fnal.gov/pnfs/fnal.gov/usr/icarus/resilient/icaruspro/poms_fcl/g4_enable_spacecharge.fcl file:////srv/no_xfer/0/TRANSFERRED_INPUT_FILES//g4_enable_spacecharge.fclexited status 1
+```
+
+probably the fcl file (#g4_enable_spacecharge.fcl# in this example) is not present in */pnfs/icarus/resilient/icaruspro/poms_fcl*
+
+### Held job
+
+If you job is in held state, one way to check the reason is following these steps:
+
+- From the campaign stage page, click on **Campaign Stage Submission Files** link
+
+![image](images/ChangeStageSubmissionFiles.png)
+
+- Then click on stage submission id under the **submission jobsub_jobid** column
+
+![image](images/SubmissionJobsubJobID.png)
+
+- Then click on **Job Logs** link
+
+![image](images/JobLogs.png)
+
+- From the new page copy the three groups of digits of the job script starting from the date 
+
+![image](images/CopyJobID.png)
+
+- Go to an ICARUS machine (icarusgpvm0[1-3].fnal.gov) and do:
+    - ```source /cvmfs/icarus.opensciencegrid.org/products/icarus/setup_icarus.sh```
+    - ```setup icaruscode v07_00_01 -q e15:prof```
+    - ```jobsub_q --hold --user=icaruspro | grep XXXXXXXX_YYYYYY_ZZZZZZZ```
+
+    the last command will show the list of the held job for the selected stage submission.
+
+![image](images/JobSubHold.png)
+
+- Copy the job_id and run the command: ```jobsub_q --better-analyze --jobid <job_id>```. In the output of the command, you will find **Hold reason**.
+
+![image](images/HoldReason.png)
