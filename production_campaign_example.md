@@ -87,20 +87,47 @@ and once all the stages are correctly configured, save the campaign configuratio
 ![image](images/SaveCampaignConfiguration.png)
 
 ## Launch test campaign
+
+Before to launch the production campaign is better to verify everything is set up correctly. In order to do so, click on the campaign name.
+
 ![image](images/SelectCampaign.png)
+
+Click on the first stage of the campaign.
+
 ![image](images/SelectStage.png)
+
+Click on the **Launch Campaign Stage Test Jobs Now** button.
+
 ![image](images/LaunchTestCampaign.png)
 
+Now you have launched your campaing in *test* mode. Once you have verified everything is set up correctly you can launch the campaign. Otherwise you have to fix the campaign and relaunch it in *test* mode.
+
 ## Launch campaign
+
+To Launch the campaign, click the button corresponding to your campaing in the **Launch** column.
+
 ![image](images/LaunchProductionCampaign.png)
 
 ## Monitor campaign
+
+You can monitor your campaign by clicking on the campaign name.
+
+![image](images/SelectCampaign.png)
+
+Then click on the stage you are interested.
+
+![image](images/SelectStage.png)
+
+Finally, click on **Campaign Stage Stats (Landscape)** link.
+
 ![image](images/Landscape.png)
+
+The new window report the statistics of the stage. In the bottom part of the page, you can find the stage overall status and its submission id.
+
 ![image](images/JobID.png)
+
+By clicking on the submission id, you can check the status of each job, its stdout and stderr.
+
 ![image](images/JobStatus.png)
 
-fcl file, check and upload
-folder 
-draining10
-check file in filesystem
-hold reason, where to check
+In case of failure or helding of the job, you can get an hint of the reason from its corresponding stdout and stderr.
