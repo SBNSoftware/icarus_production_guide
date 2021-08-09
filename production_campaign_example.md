@@ -14,6 +14,7 @@ In this Markdown page an example of the creation, test and launch of a new produ
 - [Launch test campaign](#launch-test-campaign)
 - [Launch campaign](#launch-campaign)
 - [Monitor campaign](#monitor-campaign)
+- [Define Samweb dataset](#define-samweb-dataset)
 
 ## Clone an existing campaign
 
@@ -127,6 +128,88 @@ By clicking on the submission id, you can check the status of each job, its stdo
 
 In case of failure or helding of the job, you can get an hint of the reason from its corresponding stdout and stderr.
 
+## Define Samweb dataset
+
+Once the job is completed, the output files are in the folder defined in **global.sample** under the path: ```/pnfs/icarus/scratch/users/icaruspro/dropbox/mc1/poms_production```
+
+Then, the files will be copied to tape and, if needed, deleted from disk
+
+In order to define a samweb dataset for the stage you are interested:
+
+- Take one file and use samweb ```samweb get-metadata``` command:
+
+```
+[07:29:49 ~]$ samweb get-metadata gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4_20210625T093723_detsim.root
+              File Name: gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4_20210625T093723_detsim.root
+                File Id: 17000891
+            Create Date: 2021-06-25T09:38:48+00:00
+                   User: icaruspro
+              File Size: 10685425324
+               Checksum: enstore:273821235
+                         adler32:0ab22e34
+                         md5:435d50e1b9943c9baea74c2d3f014cd5
+         Content Status: good
+              File Type: mc
+            File Format: artroot
+                  Group: icarus
+              Data Tier: simulated
+            Application: art detsim v09_17_00
+             Process Id: 3748723
+            Event Count: 25
+            First Event: 1
+             Last Event: 25
+             Start Time: 2021-06-25T09:10:05+00:00
+               End Time: 2021-06-25T09:37:22+00:00
+            Data Stream: out1
+    art.file_format_era: ART_2011a
+art.file_format_version: 13
+        art.first_event: 1
+         art.last_event: 25
+       art.process_name: DetSim
+           art.run_type: physics
+               fcl.name: multitpc_detsim_icarus.fcl
+    icarus_project.name: icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00
+icarus_project.software: icaruscode
+   icarus_project.stage: detsim
+ icarus_project.version: v09_17_00
+            merge.merge: 0
+           merge.merged: 0
+        production.name: 2021A_00
+        production.type: SBN
+                   Runs: 325.0048 (physics)
+                Parents: gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4.root
+```
+
+- From the output, check **icarus_project.name** and **icarus_project.stage** fields
+
+- Run the ```samweb create-definition``` command:
+
+```
+[07:41:25 ~]$ samweb create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim "icarus_project.name icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00 and icarus_project.stage detsim"
+```
+
+- Check the number of files is what you expected:
+
+```
+[07:51:14 ~]$ samweb list-files --summary "defname:ICARUS_event_selection_intime_cosmics_v09_17_00_detsim"
+File count:     2803
+Total size:     9866703431744
+Event count:    38448
+```
+
+- If the number of files is more than you expected, probably there are duplicates. To remove duplicates, run the command:
+
+```
+sam_dataset_duplicate_kids --retire_file --delete --dims "defname:ICARUS_event_selection_intime_cosmics_v09_17_00_g4"
+```
+
+and/or
+
+```
+sam_dataset_duplicate_kids --retire_file --delete --dims "ischildof:(defname:ICARUS_event_selection_intime_cosmics_v09_17_00_g4)"
+```
+
+
 ## Most common issues
 
 ### fcl not exists
@@ -140,37 +223,31 @@ error: globus_ftp_client: the server responded with an error
 program: globus-url-copy -rst-retries 1 -gridftp2 -nodcau -restart -stall-timeout 14400  gsiftp://fndca4b.fnal.gov/pnfs/fnal.gov/usr/icarus/resilient/icaruspro/poms_fcl/g4_enable_spacecharge.fcl file:////srv/no_xfer/0/TRANSFERRED_INPUT_FILES//g4_enable_spacecharge.fclexited status 1
 ```
 
-probably the fcl file (#g4_enable_spacecharge.fcl# in this example) is not present in */pnfs/icarus/resilient/icaruspro/poms_fcl*
+probably the fcl file (*g4_enable_spacecharge.fcl* in this example) is not present in */pnfs/icarus/resilient/icaruspro/poms_fcl*
 
 ### Held job
 
-If you job is in held state, one way to check the reason is following these steps:
+If you job is in held state, you can check the reason:
 
-- From the campaign stage page, click on **Campaign Stage Submission Files** link
+- From the campaign stage page, click on **Campaign Stage Stats (Landscape)** link
 
-![image](images/ChangeStageSubmissionFiles.png)
+![image](images/Landscape.png)
 
-- Then click on stage submission id under the **submission jobsub_jobid** column
+- In the opened page, you can find an histogram with the **Hold Reason**
 
-![image](images/SubmissionJobsubJobID.png)
+![image](images/hold_reason.png)
 
-- Then click on **Job Logs** link
+### Exit code
 
-![image](images/JobLogs.png)
+To check the non-zero exit code of the jobs:
 
-- From the new page copy the three groups of digits of the job script starting from the date 
+- From the campaign stage page, click on **Campaign Stage Stats (Landscape)** link
 
-![image](images/CopyJobID.png)
+![image](images/Landscape.png)
 
-- Go to an ICARUS machine (icarusgpvm0[1-3].fnal.gov) and do:
-    - ```source /cvmfs/icarus.opensciencegrid.org/products/icarus/setup_icarus.sh```
-    - ```setup icaruscode v07_00_01 -q e15:prof```
-    - ```jobsub_q --hold --user=icaruspro | grep XXXXXXXX_YYYYYY_ZZZZZZZ```
+- In the opened page, you can find an histogram with the **Nonzero Exit Code**
 
-    the last command will show the list of the held job for the selected stage submission.
+![image](images/exit_code.png)
 
-![image](images/JobSubHold.png)
+- The meaning of the exit code can be found in [here](https://cdcvs.fnal.gov/redmine/projects/icarus-production/wiki/ICARUS_Exit_Codes)
 
-- Copy the job_id and run the command: ```jobsub_q --better-analyze --jobid <job_id>```. In the output of the command, you will find **Hold reason**.
-
-![image](images/HoldReason.png)
