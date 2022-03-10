@@ -142,10 +142,10 @@ export X509_USER_PROXY=/opt/icaruspro/icaruspro.Production.proxy
 
 Then:
 
-- Take one file and use samweb ```samweb get-metadata``` command:
+- Take one file and use samweb ```samweb -e sbn get-metadata``` command:
 
 ```
-[07:29:49 ~]$ samweb get-metadata gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4_20210625T093723_detsim.root
+[07:29:49 ~]$ samweb -e sbn get-metadata gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4_20210625T093723_detsim.root
               File Name: gen-prodcorsika_genie_nooverburden_icarus_Jun2021_20210623T130814_325-0048_gen_20210623T180243_g4_20210625T093723_detsim.root
                 File Id: 17000891
             Create Date: 2021-06-25T09:38:48+00:00
@@ -188,16 +188,16 @@ icarus_project.software: icaruscode
 
 - From the output, check **icarus_project.name** and **icarus_project.stage** fields
 
-- Run the ```samweb create-definition``` command:
+- Run the ```samweb -e sbn create-definition``` command:
 
 ```
-[07:41:25 ~]$ samweb create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim "icarus_project.name icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00 and icarus_project.stage detsim"
+[07:41:25 ~]$ samweb -e sbn create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim "icarus_project.name icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00 and icarus_project.stage detsim"
 ```
 
 - Check the number of files is what you expected:
 
 ```
-[07:51:14 ~]$ samweb list-files --summary "defname:ICARUS_event_selection_intime_cosmics_v09_17_00_detsim"
+[07:51:14 ~]$ samweb -e sbn list-files --summary "defname:ICARUS_event_selection_intime_cosmics_v09_17_00_detsim"
 File count:     2803
 Total size:     9866703431744
 Event count:    38448
