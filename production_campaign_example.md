@@ -132,9 +132,14 @@ In case of failure or helding of the job, you can get an hint of the reason from
 
 Once the job is completed, the output files are in the folder defined in the script that you find in the **launch_script** of the **job_type** configuration in the bottom area of the Campaign Editor (for example: /icarus/app/poms_test/cfg/icarus_test_allupdates_withcaf_allstages.cfg). In the file, the stages are configured and among other there is the field **job_output.dest** or similar.
 
-Then, the files will be copied to tape and, if needed, deleted from disk
+In order to define a samweb dataset for the stage you are interested, first setup **sam_web_client**:
+```
+source /cvmfs/icarus.opensciencegrid.org/products/icarus/setup_icarus.sh
+ups list                        # just to list products and versions
+setup sam_web_client v3_0
+```
 
-In order to define a samweb dataset for the stage you are interested:
+Then:
 
 - Take one file and use samweb ```samweb get-metadata``` command:
 
