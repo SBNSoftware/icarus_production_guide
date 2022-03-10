@@ -130,7 +130,7 @@ In case of failure or helding of the job, you can get an hint of the reason from
 
 ## Define Samweb dataset
 
-Once the job is completed, the output files are in the folder defined in **global.sample** under the path: ```/pnfs/icarus/scratch/users/icaruspro/dropbox/mc1/poms_production```
+Once the job is completed, the output files are in the folder defined in the script that you find in the **launch_script** of the **job_type** configuration in the bottom area of the Campaign Editor (for example: /icarus/app/poms_test/cfg/icarus_test_allupdates_withcaf_allstages.cfg). In the file, the stages are configured and among other there is the field **job_output.dest** or similar.
 
 Then, the files will be copied to tape and, if needed, deleted from disk
 
