@@ -137,6 +137,7 @@ In order to define a samweb dataset for the stage you are interested, first setu
 source /cvmfs/icarus.opensciencegrid.org/products/icarus/setup_icarus.sh
 ups list                        # just to list products and versions
 setup sam_web_client v3_0
+export X509_USER_PROXY=/opt/icaruspro/icaruspro.Production.proxy
 ```
 
 Then:
