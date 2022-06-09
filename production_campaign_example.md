@@ -130,9 +130,17 @@ In case of failure or helding of the job, you can get an hint of the reason from
 
 ## Kick campaign stage to complete
 
-When a reasonable fraction (90%-95%) of the job is successuful finished, you can kick the campaign stage to complete. To do so, from the Campaigns page, click on the submission history button of you campaign.
+When a reasonable fraction (90% - 95%) of the job is successuful finished, you can kick the campaign stage to complete. To do so, from the Campaigns page, click on the **Submission History** button of you campaign.
 
+![image](images/SubmissionHistory.JPG)
 
+Then click on the **Submission ID** of the submission you are interrested.
+
+![image](images/SubmissionID.JPG)
+
+Finally, click on the **Kick to Complete** button.
+
+![image](images/KickToComplete.JPG)
 
 ## Define Samweb dataset
 
