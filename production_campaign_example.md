@@ -122,6 +122,14 @@ By clicking on the submission id, you can check the status of each job, its stdo
 
 In case of failure or helding of the job, you can get an hint of the reason from its corresponding stdout and stderr.
 
+## Limit on the number of submitted jobs
+
+The maximum number of submitted jobs is **10000**, so you should check you dataset input is smaller than this number otherwise the launch of campaign stage will fail. If you have an input dataset with more than **10000** files you should define a smaller dataset with the samweb tools add the `with limit 10000` option. Example:
+
+```
+[07:41:25 ~]$ samweb -e sbn create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim "icarus_project.name icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00 and icarus_project.stage detsim with limit 10000"
+```
+
 ## Kick campaign stage to complete
 
 When a reasonable fraction (90% - 95%) of the job is successuful finished, you can kick the campaign stage to complete. To do so, from the Campaigns page, click on the **Submission History** button of you campaign.
