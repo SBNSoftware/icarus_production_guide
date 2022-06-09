@@ -1,10 +1,3 @@
----
-layout: page                                # mandatory, use page always
-title: Example of Campaign Creation         # mandatory
-description: Example of Campaign Creation   # optional
-toc: true                                   # optional
----
-
 # Creation, Submission and Monitor of a Campaign (an example)
 
 In this Markdown page an example of the creation, test and launch of a new production campaign is reported. The main steps are: 
@@ -14,6 +7,7 @@ In this Markdown page an example of the creation, test and launch of a new produ
 - [Launch test campaign](#launch-test-campaign)
 - [Launch campaign](#launch-campaign)
 - [Monitor campaign](#monitor-campaign)
+- [Kick Campaign Stage to Complete](#kick-campaign-stage-to-complete)
 - [Define Samweb dataset](#define-samweb-dataset)
 
 ## Clone an existing campaign
