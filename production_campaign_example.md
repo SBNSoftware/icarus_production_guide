@@ -128,6 +128,12 @@ By clicking on the submission id, you can check the status of each job, its stdo
 
 In case of failure or helding of the job, you can get an hint of the reason from its corresponding stdout and stderr.
 
+## Kick campaign stage to complete
+
+When a reasonable fraction (90%-95%) of the job is successuful finished, you can kick the campaign stage to complete. To do so, from the Campaigns page, click on the submission history button of you campaign.
+
+
+
 ## Define Samweb dataset
 
 Once the job is completed, the output files are in the folder defined in the script that you find in the **launch_script** of the **job_type** configuration in the bottom area of the Campaign Editor (for example: /icarus/app/poms_test/cfg/icarus_test_allupdates_withcaf_allstages.cfg). In the file, the stages are configured and among other there is the field **job_output.dest** or similar.
