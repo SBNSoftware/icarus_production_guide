@@ -127,7 +127,13 @@ In case of failure or helding of the job, you can get an hint of the reason from
 The maximum number of submitted jobs is **10000**, so you should check you dataset input is smaller than this number otherwise the launch of campaign stage will fail. If you have an input dataset with more than **10000** files you should define a smaller dataset with the samweb tools add the `with limit 10000` option. Example:
 
 ```
-[07:41:25 ~]$ samweb -e sbn create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim "icarus_project.name icarus_ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00 and icarus_project.stage detsim with limit 10000"
+[07:41:25 ~]$ samweb -e sbn create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim_limit_10000_1 "defname:ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim with limit 10000"
+```
+
+To create a definition with the remaining files just do:
+
+```
+[07:41:25 ~]$ samweb -e sbn create-definition ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim_limit_10000_2 "defname:ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim minus defname:ICARUS_event_selection_BNB_NuPlus_intime_cosmics_v09_17_00_detsim_limit_10000_1"
 ```
 
 ## Kick campaign stage to complete
